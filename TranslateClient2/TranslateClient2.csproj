@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\Main\InputTimeSmoother.cs" />
     <Compile Include="Views\Main\MainPresenter.cs" />
     <Compile Include="Views\Presenter.cs" />
     <Page Include="Views\Main\MainWindow.xaml">

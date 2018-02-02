@@ -35,12 +35,14 @@ namespace TranslateClient2.Views.Main {
             set => InputControl.Text = value;
         }
 
-        private void InputControl_TextChanged(object sender, TextChangedEventArgs e) {
-            _presenter.InputChanged((sender as TextBox).Text);
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             _presenter.OnLoaded();
         }
+
+        private async void InputControl_TextChanged(object sender, TextChangedEventArgs e) {
+            await _presenter.InputChanged((sender as TextBox).Text);
+        }
+        
     }
 }
