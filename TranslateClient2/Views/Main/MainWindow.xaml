@@ -14,13 +14,13 @@
             IconSource="/TrayIcon.ico"
         ></tb:TaskbarIcon>
 
-        <Grid>
+        <Grid Background="Black">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox x:Name="InputControl" Grid.Row="0" TextChanged="InputControl_TextChanged"></TextBox>
-            <Label x:Name="TranslatedControl" Grid.Row="1"></Label>
+            <TextBox x:Name="InputControl" Grid.Row="0" TextChanged="InputControl_TextChanged" Margin="10 10 10 5"></TextBox>
+            <TextBox x:Name="TranslatedControl" Grid.Row="1" IsReadOnly="True" Margin="10 5 10 10"></TextBox>
         </Grid>
     </DockPanel>
 

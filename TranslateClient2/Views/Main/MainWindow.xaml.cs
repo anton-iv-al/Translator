@@ -26,8 +26,8 @@ namespace TranslateClient2.Views.Main {
         }
 
         public string TranslatedText {
-            get => TranslatedControl.Content as string;
-            set => TranslatedControl.Content = value;
+            get => TranslatedControl.Text;
+            set => TranslatedControl.Text = value;
         }
 
         public string InputText {
