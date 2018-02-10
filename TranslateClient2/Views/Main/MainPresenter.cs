@@ -7,11 +7,9 @@ using System.Windows;
 
 namespace TranslateClient2.Views.Main {
     public class MainPresenter : Presenter<MainWindow> {
-        private readonly InputTimeSmoother _smoother;
+        private readonly InputTimeSmoother _smoother = new InputTimeSmoother();
 
-        public MainPresenter(MainWindow view) : base(view) {
-            _smoother = new InputTimeSmoother(OnSmoothedInputChanged);
-        }
+        public MainPresenter(MainWindow view) : base(view) { }
 
         public void OnLoaded() {
 //            _view.WindowState = WindowState.Minimized;
@@ -19,11 +17,10 @@ namespace TranslateClient2.Views.Main {
         }
 
         public async Task InputChanged(string input) {
-            await _smoother.OnRealInputChanged(input);
-        }
-
-        private void OnSmoothedInputChanged(string input) {
-            _view.TranslatedText = input;
+            string smoothedInput = await _smoother.OnRealInputChanged(input);
+            if (smoothedInput != null) {
+                _view.TranslatedText = smoothedInput;
+            }
         }
     }
 }
