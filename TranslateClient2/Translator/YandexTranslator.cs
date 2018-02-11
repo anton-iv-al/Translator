@@ -43,18 +43,19 @@ namespace TranslateClient2.Translator {
             _secondLanguage = config["second_language"].ToString();
         }
 
-        public async Task<string> Translate(string text) {
-            string detectedLang = await LanguageOfText(text);
+        public async Task<TranslateResult> Translate(string text) {
+            var direction = await TranslateDirection(text);
 
             var requestContent = new FormUrlEncodedContent(new Dictionary<string, string>() {
                 {"key", _dictionaryKey},
-                {"lang", TranslateDirection(detectedLang)},
+                {"lang", TranslateDirectionString(direction)},
                 {"text", text}
             });
 
             string responseJson = await JsonFromGetRequest(_dictionaryUri, requestContent);
+            string translatedText = ParsedTranslateResponse(responseJson);
 
-            return ParsedTranslateResponse(responseJson);
+            return new TranslateResult(translatedText, direction.Item1, direction.Item2);
         }
 
         private async Task<string> LanguageOfText(string text) {
@@ -81,7 +82,7 @@ namespace TranslateClient2.Translator {
 
         private string ParsedTranslateResponse(string responseJson) {
             dynamic def = JObject.Parse(responseJson)["def"];
-            if(def.Count == 0) return String.Empty;
+            if (def.Count == 0) return String.Empty;
 
             dynamic tr = def[0]["tr"];
             var result = new StringBuilder(tr[0]["text"].ToString());
@@ -107,11 +108,14 @@ namespace TranslateClient2.Translator {
             throw new HttpRequestException(errorMessage.ToString());
         }
 
-        private string TranslateDirection(string detectedLanguage) {
-            string template = "{0}-{1}";
+        private string TranslateDirectionString(Tuple<string, string> direction) {
+            return $"{direction.Item1}-{direction.Item2}";
+        }
 
-            if (detectedLanguage == _firstLanguage) return String.Format(template, _firstLanguage, _secondLanguage);
-            else return String.Format(template, detectedLanguage, _firstLanguage);
+        private async Task<Tuple<string, string>> TranslateDirection(string text) {
+            string detectedLang = await LanguageOfText(text);
+            if (detectedLang == _firstLanguage) return new Tuple<string, string>(_firstLanguage, _secondLanguage);
+            else return new Tuple<string, string>(detectedLang, _firstLanguage);
         }
     }
 }

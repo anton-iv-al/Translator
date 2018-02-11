@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace TranslateClient2.Translator
 {
     public interface ITranslator {
-        Task<string> Translate(string input);
+        Task<TranslateResult> Translate(string input);
     }
 }

@@ -38,14 +38,24 @@ namespace TranslateClient2.Views.Main {
             if (e.HotKey.Equals(_translateHotKey)) await _presenter.OnTranslateHotKey();
         }
 
+        public string InputText {
+            get => InputControl.Text;
+            set => InputControl.Text = value;
+        }
+
         public string TranslatedText {
             get => TranslatedControl.Text;
             set => TranslatedControl.Text = value;
         }
 
-        public string InputText {
-            get => InputControl.Text;
-            set => InputControl.Text = value;
+        public string InputLanguageText {
+            get => InputLanguageControl.Content.ToString();
+            set => InputLanguageControl.Content = value;
+        }
+
+        public string TranslatedLanguageText {
+            get => TranslatedLanguageControl.Content.ToString();
+            set => TranslatedLanguageControl.Content = value;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e) {

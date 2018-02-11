@@ -41,7 +41,7 @@ namespace TranslateClient2.Views.Main {
                     _view.WindowState = WindowState.Normal;
                     _view.Visibility = Visibility.Visible;
                     _view.Activate();
-                    _view.Topmost = true;  // не убирать
+                    _view.Topmost = true; // не убирать
                     _view.Topmost = false;
                     _view.Focus();
                 }
@@ -67,8 +67,11 @@ namespace TranslateClient2.Views.Main {
 
         private async Task Translate(string text) {
             try {
-                string translated = await AppContext.Instance.Translator.Translate(text);
-                _view.TranslatedText = translated;
+                var translateResult = await AppContext.Instance.Translator.Translate(text);
+
+                _view.TranslatedText = translateResult.TranslatedText;
+                _view.InputLanguageText = translateResult.InputTextLanguage;
+                _view.TranslatedLanguageText = translateResult.TranslatedTextLanguage;
             }
             catch (HttpRequestException e) {
                 _view.TranslatedText = e.Message;

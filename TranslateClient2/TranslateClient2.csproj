@@ -68,6 +68,7 @@
     </ApplicationDefinition>
     <Compile Include="AppContext.cs" />
     <Compile Include="Translator\ITranslator.cs" />
+    <Compile Include="Translator\TranslateResult.cs" />
     <Compile Include="Translator\YandexTranslator.cs" />
     <Compile Include="Views\Main\InputTimeSmoother.cs" />
     <Compile Include="Views\Main\MainPresenter.cs" />

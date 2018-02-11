@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TranslateClient2.Views.Main"
         xmlns:tb="http://www.hardcodet.net/taskbar" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Translator" Height="350" Width="525" Loaded="Window_Loaded" Closing="Window_Closing">
     <DockPanel>
 
         <tb:TaskbarIcon
@@ -24,11 +24,17 @@
 
         <Grid Background="Black">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox x:Name="InputControl" Grid.Row="0" TextChanged="InputControl_TextChanged" Margin="10 10 10 5"></TextBox>
-            <TextBox x:Name="TranslatedControl" Grid.Row="1" IsReadOnly="True" Margin="10 5 10 10"></TextBox>
+            <TextBox x:Name="InputControl" Grid.Row="1" TextChanged="InputControl_TextChanged" Margin="10 0 10 0"></TextBox>
+            <TextBox x:Name="TranslatedControl" Grid.Row="3" IsReadOnly="True" Margin="10 0 10 10"></TextBox>
+
+
+            <Label x:Name="InputLanguageControl" Grid.Row="0" Foreground ="White" Margin="10 0 0 0"></Label>
+            <Label x:Name="TranslatedLanguageControl" Grid.Row="2" Foreground ="White" Margin="10 0 0 0"></Label>
         </Grid>
     </DockPanel>
 
