@@ -1,1 +1,8 @@
-﻿
+﻿dictionary_uri: https://dictionary.yandex.net/api/v1/dicservice.json/lookup
+dictionary_key: dict.1.1.20180128T003949Z.f58f40a5e2137f85.63c0c4ab86a4186add409a6d8928aa679fc90279
+
+detect_language_uri: https://translate.yandex.net/api/v1.5/tr.json/detect
+translate_key: trnsl.1.1.20180210T231505Z.997c6871d9a87bcf.16842afcd8e17a5af9b55dbfc5e66ca6dab4692f
+
+first_language: ru
+second_language: en

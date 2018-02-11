@@ -1,33 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Newtonsoft.Json.Linq;
+using YamlDotNet.RepresentationModel;
 
 namespace TranslateClient2.Translator {
     public class YandexTranslator : ITranslator {
-        private readonly string _dictionaryUri = "https://dictionary.yandex.net/api/v1/dicservice.json/lookup";
+        private string _dictionaryUri;
 
-        private readonly string _dictionaryKey =
-            "dict.1.1.20180128T003949Z.f58f40a5e2137f85.63c0c4ab86a4186add409a6d8928aa679fc90279";
+        private string _dictionaryKey;
 
-        private readonly string _detectUri = "https://translate.yandex.net/api/v1.5/tr.json/detect";
+        private string _detectLanguageUri;
 
-        private readonly string _tranlateKey =
-            "trnsl.1.1.20180210T231505Z.997c6871d9a87bcf.16842afcd8e17a5af9b55dbfc5e66ca6dab4692f";
+        private string _tranlateKey;
 
-        private readonly string _probablyLanguages;
+        private string _probablyLanguages;
 
-        private readonly string _firstLanguage = "ru";
+        private string _firstLanguage;
 
-        private readonly string _secondLanguage = "en";
+        private string _secondLanguage;
 
         private readonly HttpClient _httpClient = new HttpClient();
 
         public YandexTranslator() {
+            ParseConfig();
             _probablyLanguages = $"{_firstLanguage},{_secondLanguage}";
+        }
+
+        private void ParseConfig() {
+            dynamic config = YamlHelper.ConfigFromFile("Translator/YandexTranslatorConfig.yaml");
+
+            _dictionaryUri = config["dictionary_uri"].ToString();
+            _dictionaryKey = config["dictionary_key"].ToString();
+            _detectLanguageUri = config["detect_language_uri"].ToString();
+            _tranlateKey = config["translate_key"].ToString();
+            _firstLanguage = config["first_language"].ToString();
+            _secondLanguage = config["second_language"].ToString();
         }
 
         public async Task<string> Translate(string text) {
@@ -51,7 +64,7 @@ namespace TranslateClient2.Translator {
                 {"text", text}
             });
 
-            string responseJson = await JsonFromGetRequest(_detectUri, requestContent);
+            string responseJson = await JsonFromGetRequest(_detectLanguageUri, requestContent);
 
             return ParsedDetectLanguageResponse(responseJson);
         }
