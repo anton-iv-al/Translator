@@ -6,13 +6,21 @@
         xmlns:local="clr-namespace:TranslateClient2.Views.Main"
         xmlns:tb="http://www.hardcodet.net/taskbar" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded" Closing="Window_Closing">
     <DockPanel>
 
         <tb:TaskbarIcon
-            ToolTipText="i am in tray!"
+            ToolTipText="Translate"
             IconSource="/TrayIcon.ico"
-        ></tb:TaskbarIcon>
+            TrayMouseDoubleClick="TrayIcon_OnTrayMouseDoubleClick"
+        >
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Click="TrayMenuOpen_OnClick"/>
+                    <MenuItem Header="Exit" Click="TrayMenuExit_OnClick"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
 
         <Grid Background="Black">
             <Grid.RowDefinitions>

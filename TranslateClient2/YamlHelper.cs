@@ -18,7 +18,7 @@ namespace TranslateClient2 {
                 yaml.Load(reader);
             }
             catch (Exception e) {
-                MessageBox.Show("Config reading error.", "Error");
+                MessageBox.Show("Config reading error.\n\n" + e.Message, "Error");
             }
 
             return (yaml.Documents[0].RootNode as YamlMappingNode).Children;

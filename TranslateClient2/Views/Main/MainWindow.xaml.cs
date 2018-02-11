@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GlobalHotKey;
 
 namespace TranslateClient2.Views.Main {
     /// <summary>
@@ -20,9 +21,21 @@ namespace TranslateClient2.Views.Main {
     public partial class MainWindow : Window {
         private readonly MainPresenter _presenter;
 
+        private HotKey _translateHotKey;
+
         public MainWindow() {
             InitializeComponent();
+            RegisterHotkeys();
             _presenter = new MainPresenter(this);
+        }
+
+        private void RegisterHotkeys() {
+            _translateHotKey = AppContext.Instance.HotKeyManager.Register(Key.T, ModifierKeys.Alt);
+            AppContext.Instance.HotKeyManager.KeyPressed += HotkeyEventHandler;
+        }
+
+        private void HotkeyEventHandler(object sender, KeyPressedEventArgs e) {
+            if (e.HotKey.Equals(_translateHotKey)) _presenter.OnTranslateHotKey();
         }
 
         public string TranslatedText {
@@ -35,14 +48,30 @@ namespace TranslateClient2.Views.Main {
             set => InputControl.Text = value;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void Window_Loaded(object sender, RoutedEventArgs e) {
             _presenter.OnLoaded();
         }
 
         private async void InputControl_TextChanged(object sender, TextChangedEventArgs e) {
             await _presenter.InputChanged((sender as TextBox).Text);
         }
-        
+
+        private void TrayIcon_OnTrayMouseDoubleClick(object sender, RoutedEventArgs e) {
+            _presenter.OnTrayMouseDoubleClick();
+        }
+
+        private void TrayMenuOpen_OnClick(object sender, RoutedEventArgs e) {
+            _presenter.OnTrayMenuOpenClick();
+        }
+
+        private void TrayMenuExit_OnClick(object sender, RoutedEventArgs e) {
+            _presenter.OnTrayMenuExitClick();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            e.Cancel = true;
+
+            _presenter.OnWindowCloseButton();
+        }
     }
 }

@@ -13,8 +13,42 @@ namespace TranslateClient2.Views.Main {
         public MainPresenter(MainWindow view) : base(view) { }
 
         public void OnLoaded() {
-//            _view.WindowState = WindowState.Minimized;
-//            _view.Visibility = Visibility.Collapsed;
+            IsInTray = true;
+        }
+
+        public void OnTranslateHotKey() {
+            IsInTray = false;
+        }
+
+        private bool IsInTray {
+            get => _view.WindowState == WindowState.Minimized && _view.Visibility == Visibility.Collapsed;
+            set {
+                if (value) {
+                    _view.WindowState = WindowState.Minimized;
+                    _view.Visibility = Visibility.Collapsed;
+                }
+                else {
+                    _view.Show();
+                    _view.WindowState = WindowState.Normal;
+                    _view.Visibility = Visibility.Visible;
+                    _view.Activate();
+                    _view.Topmost = true;  // не убирать
+                    _view.Topmost = false;
+                    _view.Focus();
+                }
+            }
+        }
+
+        public void OnTrayMouseDoubleClick() {
+            IsInTray = false;
+        }
+
+        public void OnTrayMenuOpenClick() {
+            IsInTray = false;
+        }
+
+        public void OnTrayMenuExitClick() {
+            Application.Current.Shutdown();
         }
 
         public async Task InputChanged(string input) {
@@ -30,6 +64,10 @@ namespace TranslateClient2.Views.Main {
             catch (HttpRequestException e) {
                 _view.TranslatedText = e.Message;
             }
+        }
+
+        public void OnWindowCloseButton() {
+            IsInTray = true;
         }
     }
 }
