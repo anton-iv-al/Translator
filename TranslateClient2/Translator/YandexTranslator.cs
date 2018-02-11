@@ -86,8 +86,12 @@ namespace TranslateClient2.Translator {
 
             dynamic tr = def[0]["tr"];
             var result = new StringBuilder(tr[0]["text"].ToString());
-            foreach (var syn in tr[0]["syn"]) {
-                result.Append('\n' + syn["text"].ToString());
+
+            dynamic syn = tr[0]["syn"];
+            if (syn != null) {
+                foreach (var oneSyn in syn) {
+                    result.Append('\n' + oneSyn["text"].ToString());
+                }
             }
 
             return result.ToString();
