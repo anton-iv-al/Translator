@@ -80,7 +80,10 @@ namespace TranslateClient2.Translator {
         }
 
         private string ParsedTranslateResponse(string responseJson) {
-            dynamic tr = JObject.Parse(responseJson)["def"][0]["tr"];
+            dynamic def = JObject.Parse(responseJson)["def"];
+            if(def.Count == 0) return String.Empty;
+
+            dynamic tr = def[0]["tr"];
             var result = new StringBuilder(tr[0]["text"].ToString());
             foreach (var syn in tr[0]["syn"]) {
                 result.Append('\n' + syn["text"].ToString());
