@@ -34,8 +34,8 @@ namespace TranslateClient2.Views.Main {
             AppContext.Instance.HotKeyManager.KeyPressed += HotkeyEventHandler;
         }
 
-        private void HotkeyEventHandler(object sender, KeyPressedEventArgs e) {
-            if (e.HotKey.Equals(_translateHotKey)) _presenter.OnTranslateHotKey();
+        private async void HotkeyEventHandler(object sender, KeyPressedEventArgs e) {
+            if (e.HotKey.Equals(_translateHotKey)) await _presenter.OnTranslateHotKey();
         }
 
         public string TranslatedText {

@@ -16,8 +16,17 @@ namespace TranslateClient2.Views.Main {
             IsInTray = true;
         }
 
-        public void OnTranslateHotKey() {
+        public async Task OnTranslateHotKey() {
+            if (!Clipboard.ContainsText()) return;
+
             IsInTray = false;
+
+            string text = Clipboard.GetText();
+            var task = InputChanged(text, false);
+
+            _view.InputText = text;
+
+            await task;
         }
 
         private bool IsInTray {
@@ -51,8 +60,8 @@ namespace TranslateClient2.Views.Main {
             Application.Current.Shutdown();
         }
 
-        public async Task InputChanged(string input) {
-            string smoothedInput = await _smoother.OnRealInputChanged(input);
+        public async Task InputChanged(string input, bool withDelay = true) {
+            string smoothedInput = await _smoother.OnRealInputChanged(input, withDelay);
             if (smoothedInput != null) await Translate(smoothedInput);
         }
 
