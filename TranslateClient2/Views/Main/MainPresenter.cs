@@ -17,9 +17,9 @@ namespace TranslateClient2.Views.Main {
         }
 
         public async Task OnTranslateHotKey() {
-            if (!Clipboard.ContainsText()) return;
-
             IsInTray = false;
+
+            if (!Clipboard.ContainsText()) return;
 
             string text = Clipboard.GetText();
             var task = InputChanged(text, false);
